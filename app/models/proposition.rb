@@ -1,4 +1,5 @@
 class Proposition < ApplicationRecord
   belongs_to :activity
-  as_many :votes
+
+  has_many :votes
 end
