@@ -10,7 +10,48 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_15_173318) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_15_183026) do
+  create_table "activities", force: :cascade do |t|
+    t.text "description"
+    t.date "start"
+    t.date "end"
+    t.integer "event_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["event_id"], name: "index_activities_on_event_id"
+  end
+
+  create_table "events", force: :cascade do |t|
+    t.string "address"
+    t.date "start"
+    t.date "end"
+    t.integer "price"
+    t.string "color"
+    t.string "status"
+    t.string "boolean"
+    t.integer "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_events_on_user_id"
+  end
+
+  create_table "guests", force: :cascade do |t|
+    t.integer "event_id", null: false
+    t.integer "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["event_id"], name: "index_guests_on_event_id"
+    t.index ["user_id"], name: "index_guests_on_user_id"
+  end
+
+  create_table "propositions", force: :cascade do |t|
+    t.text "description"
+    t.integer "acitivity_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["acitivity_id"], name: "index_propositions_on_acitivity_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -23,4 +64,21 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_15_173318) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  create_table "votes", force: :cascade do |t|
+    t.boolean "like"
+    t.integer "guest_id", null: false
+    t.integer "proposition_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["guest_id"], name: "index_votes_on_guest_id"
+    t.index ["proposition_id"], name: "index_votes_on_proposition_id"
+  end
+
+  add_foreign_key "activities", "events"
+  add_foreign_key "events", "users"
+  add_foreign_key "guests", "events"
+  add_foreign_key "guests", "users"
+  add_foreign_key "propositions", "acitivities"
+  add_foreign_key "votes", "guests"
+  add_foreign_key "votes", "propositions"
 end
