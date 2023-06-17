@@ -11,11 +11,14 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[7.0].define(version: 2023_06_15_183026) do
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "activities", force: :cascade do |t|
     t.text "description"
     t.date "start"
     t.date "end"
-    t.integer "event_id", null: false
+    t.bigint "event_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["event_id"], name: "index_activities_on_event_id"
@@ -29,15 +32,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_15_183026) do
     t.string "color"
     t.string "status"
     t.string "boolean"
-    t.integer "user_id", null: false
+    t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_events_on_user_id"
   end
 
   create_table "guests", force: :cascade do |t|
-    t.integer "event_id", null: false
-    t.integer "user_id", null: false
+    t.bigint "event_id", null: false
+    t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["event_id"], name: "index_guests_on_event_id"
@@ -46,7 +49,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_15_183026) do
 
   create_table "propositions", force: :cascade do |t|
     t.text "description"
-    t.integer "activity_id", null: false
+    t.bigint "activity_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["activity_id"], name: "index_propositions_on_activity_id"
@@ -66,8 +69,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_15_183026) do
 
   create_table "votes", force: :cascade do |t|
     t.boolean "like"
-    t.integer "guest_id", null: false
-    t.integer "proposition_id", null: false
+    t.bigint "guest_id", null: false
+    t.bigint "proposition_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["guest_id"], name: "index_votes_on_guest_id"
